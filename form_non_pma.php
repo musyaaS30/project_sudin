@@ -88,8 +88,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Ijin Kerja WNA:</label>
         <select name="pendidik_wna_ijin_kerja" required>
             <option value="">Pilih Status</option>
-            <option value="ada">Ada</option>
-            <option value="tidak ada">Tidak Ada</option>
+            <option value="ada">ada</option>
+            <option value="tidak ada">tidak Ada</option>
         </select><br>
         
         <label>Pendidik WNA Laki-laki:</label>

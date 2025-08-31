@@ -17,7 +17,7 @@ function insertNonPMA() {
         $pimpinan_ijazah = htmlspecialchars($_POST['ijazah']);
         $pimpinan_asal_pt = htmlspecialchars($_POST['asal_pt']);
         $pimpinan_jurusan = htmlspecialchars($_POST['pimpinan_jurusan']);
-        $pimpinan_lembaga_sk = htmlspecialchars($_POST['pimpinan_lembaga_sk']);
+        $pimpinan_sk_lembaga = htmlspecialchars($_POST['pimpinan_sk_lembaga']);
         $pimpinan_sk_nomor = htmlspecialchars($_POST['pimpinan_sk_nomor']);
         $pimpinan_sk_tanggal = htmlspecialchars($_POST['pimpinan_sk_tanggal']);
         $pimpinan_pengalaman = htmlspecialchars($_POST['pimpinan_pengalaman']);
@@ -29,13 +29,13 @@ function insertNonPMA() {
         $pendidik_wni_sertifikat = htmlspecialchars($_POST['pendidik_wni_sertifikat']);
 
         // Data pendidik lembaga WNA
-        $pendidik_wna_izin_kerja = htmlspecialchars($_POST['pendidik_wna_izin_kerja']);
+        $pendidik_wna_ijin_kerja = htmlspecialchars($_POST['pendidik_wna_ijin_kerja']);
         $pendidik_wna_laki = intval($_POST['pendidik_wna_laki']);
         $pendidik_wna_perempuan = intval($_POST['pendidik_wna_perempuan']);
         $pendidik_wna_pendidikan_terakhir = htmlspecialchars($_POST['pendidik_wna_pendidikan_terakhir']);
         $pendidik_wna_sertifikat = htmlspecialchars($_POST['pendidik_wna_sertifikat']);
         
-        $jumlah_tendik = intval($_POST['jumlah_pendidik']);
+        $jumlah_tendik = intval($_POST['jumlah_tendik']);
         $pendidikan_tendik = htmlspecialchars($_POST['pendidikan_terakhir_pendidik']);
 
         // Penghasilan pendidik
@@ -45,25 +45,25 @@ function insertNonPMA() {
         $gaji_pendidik_wna_max = floatval($_POST['gaji_pendidik_wna_max']);
 
         // Data administrasi
-        $sop_administrasi = htmlspecialchars($_POST['sop_administrasi']);
-        $buku_hadir_pendidik = htmlspecialchars($_POST['buku_hadir_pendidik']);
-        $buku_hadir_siswa = htmlspecialchars($_POST['buku_hadir_siswa']);
-        $buku_daftar_inventaris = htmlspecialchars($_POST['buku_daftar_inventaris']);
-        $program_kerja_yayasan = htmlspecialchars($_POST['program_kerja_yayasan']);
-        $program_kerja_pimpinan = htmlspecialchars($_POST['program_kerja_pimpinan']);
-        $kalender_pendidikan = htmlspecialchars($_POST['kalender_pendidikan']);
-        $buku_tamu = htmlspecialchars($_POST['buku_tamu']);
-        $buku_induk_pendidik = htmlspecialchars($_POST['buku_induk_pendidik']);
-        $buku_hasil_belajar = htmlspecialchars($_POST['buku_hasil_belajar']);
-        $jadwal_pelajaran = htmlspecialchars($_POST['jadwal_pelajaran']);
-        $tata_tertib = htmlspecialchars($_POST['tata_tertib']);
-        $sertifikasi_pendidikan = htmlspecialchars($_POST['sertifikasi_pendidikan']);
-        $struktur_organisasi = htmlspecialchars($_POST['struktur_organisasi']);
+        $ada_sop = htmlspecialchars($_POST['ada_sop']);
+        $ada_buku_hadir_pendidik = htmlspecialchars($_POST['ada_buku_hadir_pendidik']);
+        $ada_buku_hadir_siswa = htmlspecialchars($_POST['ada_buku_hadir_siswa']);
+        $ada_buku_inventaris = htmlspecialchars($_POST['ada_buku_inventaris']);
+        $ada_program_kerja_yayasan = htmlspecialchars($_POST['ada_program_kerja_yayasan']);
+        $ada_program_kerja_pimpinan = htmlspecialchars($_POST['ada_program_kerja_pimpinan']);
+        $ada_kalender_pendidikan = htmlspecialchars($_POST['ada_kalender_pendidikan']);
+        $ada_buku_tamu = htmlspecialchars($_POST['ada_buku_tamu']);
+        $ada_buku_induk = htmlspecialchars($_POST['ada_buku_induk']);
+        $ada_buku_hasil_belajar = htmlspecialchars($_POST['ada_buku_hasil_belajar']);
+        $ada_jadwal = htmlspecialchars($_POST['ada_jadwal']);
+        $ada_tata_tertib = htmlspecialchars($_POST['ada_tata_tertib']);
+        $ada_sertifikat_pendidikan = htmlspecialchars($_POST['ada_sertifikat_pendidikan']);
+        $ada_struktur_organisasi = htmlspecialchars($_POST['ada_struktur_organisasi']);
 
         // Data dokumen
         $dokumen_kurikulum = htmlspecialchars($_POST['dokumen_kurikulum']);
-        $dokumen_pengembangan = htmlspecialchars($_POST['dokumen_pengembangan']);
-        $dokumen_kerja_tahunan = htmlspecialchars($_POST['dokumen_kerja_tahunan']);
+        $dokumen_rencana_pengembangan = htmlspecialchars($_POST['dokumen_rencana_pengembangan']);
+        $dokumen_rencana_tahunan = htmlspecialchars($_POST['dokumen_rencana_tahunan']);
 
         // Data sarana prasarana
         $luas_tanah = floatval($_POST['luas_tanah']);
@@ -75,13 +75,13 @@ function insertNonPMA() {
         $status_gedung = htmlspecialchars($_POST['status_gedung']);
         $peruntukan_gedung = htmlspecialchars($_POST['peruntukan_gedung']);
         $jumlah_kamar_mandi = intval($_POST['jumlah_kamar_mandi']);
-        $perawatan_kamarkecil = htmlspecialchars($_POST['perawatan_kamarkecil']);
+        $perawatan_kamar_kecil = htmlspecialchars($_POST['perawatan_kamar_kecil']);
         $persediaan_air_bersih = htmlspecialchars($_POST['persediaan_air_bersih']);
         $ruang_pimpinan = htmlspecialchars($_POST['ruang_pimpinan']);
         $ruang_tu = htmlspecialchars($_POST['ruang_tu']);
         $ruang_perpustakaan = htmlspecialchars($_POST['ruang_perpustakaan']);
-        $ruang_laboratorium = htmlspecialchars($_POST['ruang_laboratorium']);
-        $perabotan_laboratorium = htmlspecialchars($_POST['perabotan_laboratorium']);
+        $ruang_lab = htmlspecialchars($_POST['ruang_lab']);
+        $peralatan_laboratorium = htmlspecialchars($_POST['peralatan_laboratorium']);
         $kondisi_ruang_kelas = htmlspecialchars($_POST['kondisi_ruang_kelas']);
         $meja_kursi = htmlspecialchars($_POST['meja_kursi']);
         $papan_tulis = htmlspecialchars($_POST['papan_tulis']);
@@ -134,25 +134,25 @@ function insertNonPMA() {
             // Lembaga & Pimpinan (12 vars)
             $id_table_lembaga, $no_akte, $jenis_kegiatan, $kota_administrasi,
             $nama_pimpinan, $pimpinan_ijazah, $pimpinan_asal_pt, $pimpinan_jurusan,
-            $pimpinan_lembaga_sk, $pimpinan_sk_nomor, $pimpinan_sk_tanggal, $pimpinan_pengalaman,
+            $pimpinan_sk_lembaga, $pimpinan_sk_nomor, $pimpinan_sk_tanggal, $pimpinan_pengalaman,
             // Pendidik WNI & WNA (9 vars)
             $pendidik_wni_laki, $pendidik_wni_perempuan, $pendidik_wni_pendidikan_terakhir, $pendidik_wni_sertifikat,
-            $pendidik_wna_izin_kerja, $pendidik_wna_laki, $pendidik_wna_perempuan, $pendidik_wna_pendidikan_terakhir, $pendidik_wna_sertifikat,
+            $pendidik_wna_ijin_kerja, $pendidik_wna_laki, $pendidik_wna_perempuan, $pendidik_wna_pendidikan_terakhir, $pendidik_wna_sertifikat,
             // Pendidik Umum & Gaji (6 vars)
             $jumlah_tendik, $pendidikan_tendik,
             $gaji_pendidik_wni_min, $gaji_pendidik_wni_max, $gaji_pendidik_wna_min, $gaji_pendidik_wna_max,
             // Administrasi (14 vars)
-            $sop_administrasi, $buku_hadir_pendidik, $buku_hadir_siswa, $buku_daftar_inventaris,
-            $program_kerja_yayasan, $program_kerja_pimpinan, $kalender_pendidikan, $buku_tamu,
-            $buku_induk_pendidik, $buku_hasil_belajar, $jadwal_pelajaran, $tata_tertib,
-            $sertifikasi_pendidikan, $struktur_organisasi,
+            $ada_sop, $ada_buku_hadir_pendidik, $ada_buku_hadir_siswa, $ada_buku_inventaris,
+            $ada_program_kerja_yayasan, $ada_program_kerja_pimpinan, $ada_kalender_pendidikan, $ada_buku_tamu,
+            $ada_buku_induk, $ada_buku_hasil_belajar, $ada_jadwal, $ada_tata_tertib,
+            $ada_sertifikat_pendidikan, $ada_struktur_organisasi,
             // Dokumen (3 vars)
-            $dokumen_kurikulum, $dokumen_pengembangan, $dokumen_kerja_tahunan,
+            $dokumen_kurikulum, $dokumen_rencana_pengembangan, $dokumen_rencana_tahunan,
             // Sarana Prasarana (18 vars)
             $luas_tanah, $status_tanah, $peruntukan_tanah, $jumlah_ruang_belajar, $ukuran_ruang_belajar,
-            $kondisi_gedung, $status_gedung, $peruntukan_gedung, $jumlah_kamar_mandi, $perawatan_kamarkecil,
-            $persediaan_air_bersih, $ruang_pimpinan, $ruang_tu, $ruang_perpustakaan, $ruang_laboratorium,
-            $perabotan_laboratorium, $kondisi_ruang_kelas, $meja_kursi, $papan_tulis, $gudang, $alat_kebersihan,
+            $kondisi_gedung, $status_gedung, $peruntukan_gedung, $jumlah_kamar_mandi, $perawatan_kamar_kecil,
+            $persediaan_air_bersih, $ruang_pimpinan, $ruang_tu, $ruang_perpustakaan, $ruang_lab,
+            $peralatan_laboratorium, $kondisi_ruang_kelas, $meja_kursi, $papan_tulis, $gudang, $alat_kebersihan,
             // Peserta Didik & Visitasi (5 vars)
             $nama_program, $kelas_dan_level,
             $jumlah_siswa_laki, $jumlah_siswa_perempuan,
