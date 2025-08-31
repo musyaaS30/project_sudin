@@ -175,198 +175,215 @@ function insertNonPMA() {
 }
 
 function insertPMA() {
-    var_dump($_POST);
-    die;
     
     global $conn;
     
     try {
+        // Debug: Cek apakah function dipanggil
+        error_log("insertPMA() function called");
+        
+        // Cek koneksi database
+        if (!$conn) {
+            error_log("Database connection failed");
+            return false;
+        }
+        
         // Ambil semua data dari POST
-        $id_table_lembaga = intval($_POST['id_table_lembaga']);
+        $id_table_lembaga = intval($_POST['id_table_lembaga'] ?? 0);
+        
+        if ($id_table_lembaga <= 0) {
+            error_log("Invalid id_table_lembaga: " . $id_table_lembaga);
+            return false;
+        }
 
         // data permohonan izin LKP PMA
-        $form_pendaftaran_kelengkapan = htmlspecialchars($_POST['form_pendaftaran_kelengkapan']);
-        $form_pendaftaran_score = intval($_POST['form_pendaftaran_score']);
-        $form_pendaftaran_keterangan = htmlspecialchars($_POST['form_pendaftaran_keterangan']);
+        $form_pendaftaran_kelengkapan = htmlspecialchars($_POST['form_pendaftaran_kelengkapan'] ?? '');
+        $form_pendaftaran_score = intval($_POST['form_pendaftaran_score'] ?? 0);
+        $form_pendaftaran_keterangan = htmlspecialchars($_POST['form_pendaftaran_keterangan'] ?? '');
         $combined_pendaftaran = $form_pendaftaran_kelengkapan . "," . $form_pendaftaran_score . "," . $form_pendaftaran_keterangan;
 
-        $surat_tugas_kelengkapan = htmlspecialchars($_POST['surat_tugas_kelengkapan']);
-        $surat_tugas_score = intval($_POST['surat_tugas_score']);
-        $surat_tugas_keterangan = htmlspecialchars($_POST['surat_tugas_keterangan']);
+        $surat_tugas_kelengkapan = htmlspecialchars($_POST['surat_tugas_kelengkapan'] ?? '');
+        $surat_tugas_score = intval($_POST['surat_tugas_score'] ?? 0);
+        $surat_tugas_keterangan = htmlspecialchars($_POST['surat_tugas_keterangan'] ?? '');
         $combined_surat_tugas = $surat_tugas_kelengkapan . "," . $surat_tugas_score . "," . $surat_tugas_keterangan;
 
-        $ktp_pemohon_kelengkapan = htmlspecialchars($_POST['ktp_pemohon_kelengkapan']);
-        $ktp_pemohon_score = intval($_POST['ktp_pemohon_score']);
-        $ktp_pemohon_keterangan = htmlspecialchars($_POST['ktp_pemohon_keterangan']);
+        $ktp_pemohon_kelengkapan = htmlspecialchars($_POST['ktp_pemohon_kelengkapan'] ?? '');
+        $ktp_pemohon_score = intval($_POST['ktp_pemohon_score'] ?? 0);
+        $ktp_pemohon_keterangan = htmlspecialchars($_POST['ktp_pemohon_keterangan'] ?? '');
         $combined_ktp_pemohon = $ktp_pemohon_kelengkapan . "," . $ktp_pemohon_score . "," . $ktp_pemohon_keterangan;
 
-        $surat_rekomendasi_kelengkapan = htmlspecialchars($_POST['surat_rekomendasi_kelengkapan']);
-        $surat_rekomendasi_score = intval($_POST['surat_rekomendasi_score']);
-        $surat_rekomendasi_keterangan = htmlspecialchars($_POST['surat_rekomendasi_keterangan']);
+        $surat_rekomendasi_kelengkapan = htmlspecialchars($_POST['surat_rekomendasi_kelengkapan'] ?? '');
+        $surat_rekomendasi_score = intval($_POST['surat_rekomendasi_score'] ?? 0);
+        $surat_rekomendasi_keterangan = htmlspecialchars($_POST['surat_rekomendasi_keterangan'] ?? '');
         $combined_surat_rekomendasi = $surat_rekomendasi_kelengkapan . "," . $surat_rekomendasi_score . "," . $surat_rekomendasi_keterangan;
 
-        $sk_kemenhumham_kelengkapan = htmlspecialchars($_POST['sk_kemenhumham_kelengkapan']);
-        $sk_kemenhumham_score = intval($_POST['sk_kemenhumham_score']);
-        $sk_kemenhumham_keterangan = htmlspecialchars($_POST['sk_kemenhumham_keterangan']);
-        $combined_sk_kemenhumham = $sk_kemenhumham_kelengkapan . "," . $sk_kemenhumham_score . "," . $sk_kemenhumham_keterangan;
+        $sk_kemenhumkam_kelengkapan = htmlspecialchars($_POST['sk_kemenhumkam_kelengkapan'] ?? '');
+        $sk_kemenhumkam_score = intval($_POST['sk_kemenhumkam_score'] ?? 0);
+        $sk_kemenhumkam_keterangan = htmlspecialchars($_POST['sk_kemenhumkam_keterangan'] ?? '');
+        $combined_sk_kemenhumkam = $sk_kemenhumkam_kelengkapan . "," . $sk_kemenhumkam_score . "," . $sk_kemenhumkam_keterangan;
 
-        $nomor_induk_berusaha_kelengkapan = htmlspecialchars($_POST['nomor_induk_berusaha_kelengkapan']);
-        $nomor_induk_berusaha_score = intval($_POST['nomor_induk_berusaha_score']);
-        $nomor_induk_berusaha_keterangan = htmlspecialchars($_POST['nomor_induk_berusaha_keterangan']);
+        $nomor_induk_berusaha_kelengkapan = htmlspecialchars($_POST['nomor_induk_berusaha_kelengkapan'] ?? '');
+        $nomor_induk_berusaha_score = intval($_POST['nomor_induk_berusaha_score'] ?? 0);
+        $nomor_induk_berusaha_keterangan = htmlspecialchars($_POST['nomor_induk_berusaha_keterangan'] ?? '');
         $combined_nomor_induk_berusaha = $nomor_induk_berusaha_kelengkapan . "," . $nomor_induk_berusaha_score . "," . $nomor_induk_berusaha_keterangan;
 
-        $kepemilikan_tanah_kelengkapan = htmlspecialchars($_POST['kepemilikan_tanah_kelengkapan']);
-        $kepemilikan_tanah_score = intval($_POST['kepemilikan_tanah_score']);
-        $kepemilikan_tanah_keterangan = htmlspecialchars($_POST['kepemilikan_tanah_keterangan']);
+        $kepemilikan_tanah_kelengkapan = htmlspecialchars($_POST['kepemilikan_tanah_kelengkapan'] ?? '');
+        $kepemilikan_tanah_score = intval($_POST['kepemilikan_tanah_score'] ?? 0);
+        $kepemilikan_tanah_keterangan = htmlspecialchars($_POST['kepemilikan_tanah_keterangan'] ?? '');
         $combined_kepemilikan_tanah = $kepemilikan_tanah_kelengkapan . "," . $kepemilikan_tanah_score . "," . $kepemilikan_tanah_keterangan;
 
         // RIPS untuk isi pendidikan
-        $acuan_kurikulum_kelengkapan = htmlspecialchars($_POST['acuan_kurikulum_kelengkapan']);
-        $acuan_kurikulum_score = intval($_POST['acuan_kurikulum_score']);
-        $acuan_kurikulum_keterangan = htmlspecialchars($_POST['acuan_kurikulum_keterangan']);
+        $acuan_kurikulum_kelengkapan = htmlspecialchars($_POST['acuan_kurikulum_kelengkapan'] ?? '');
+        $acuan_kurikulum_score = intval($_POST['acuan_kurikulum_score'] ?? 0);
+        $acuan_kurikulum_keterangan = htmlspecialchars($_POST['acuan_kurikulum_keterangan'] ?? '');
         $combined_acuan_kurikulum = $acuan_kurikulum_kelengkapan . "," . $acuan_kurikulum_score . "," . $acuan_kurikulum_keterangan;
 
-        $kurikulum_kelengkapan = htmlspecialchars($_POST['kurikulum_kelengkapan']);
-        $kurikulum_score = intval($_POST['kurikulum_score']);
-        $kurikulum_keterangan = htmlspecialchars($_POST['kurikulum_keterangan']);
+        $kurikulum_kelengkapan = htmlspecialchars($_POST['kurikulum_kelengkapan'] ?? '');
+        $kurikulum_score = intval($_POST['kurikulum_score'] ?? 0);
+        $kurikulum_keterangan = htmlspecialchars($_POST['kurikulum_keterangan'] ?? '');
         $combined_kurikulum = $kurikulum_kelengkapan . "," . $kurikulum_score . "," . $kurikulum_keterangan;
 
-        $rpp_kelengkapan = htmlspecialchars($_POST['rpp_kelengkapan']);
-        $rpp_score = intval($_POST['rpp_score']);
-        $rpp_keterangan = htmlspecialchars($_POST['rpp_keterangan']);
+        $rpp_kelengkapan = htmlspecialchars($_POST['rpp_kelengkapan'] ?? '');
+        $rpp_score = intval($_POST['rpp_score'] ?? 0);
+        $rpp_keterangan = htmlspecialchars($_POST['rpp_keterangan'] ?? '');
         $combined_rpp = $rpp_kelengkapan . "," . $rpp_score . "," . $rpp_keterangan;
 
-        $pendekatan_pembelajaran_kelengkapan = htmlspecialchars($_POST['pendekatan_pembelajaran_kelengkapan']);
-        $pendekatan_pembelajaran_score = intval($_POST['pendekatan_pembelajaran_score']);
-        $pendekatan_pembelajaran_keterangan = htmlspecialchars($_POST['pendekatan_pembelajaran_keterangan']);
+        $pendekatan_pembelajaran_kelengkapan = htmlspecialchars($_POST['pendekatan_pembelajaran_kelengkapan'] ?? '');
+        $pendekatan_pembelajaran_score = intval($_POST['pendekatan_pembelajaran_score'] ?? 0);
+        $pendekatan_pembelajaran_keterangan = htmlspecialchars($_POST['pendekatan_pembelajaran_keterangan'] ?? '');
         $combined_pendekatan_pembelajaran = $pendekatan_pembelajaran_kelengkapan . "," . $pendekatan_pembelajaran_score . "," . $pendekatan_pembelajaran_keterangan;
 
         //RIPS untuk tenaga kependidikan
-        $nama_kelengkapan = htmlspecialchars($_POST['nama_kelengkapan']);
-        $nama_score = intval($_POST['nama_score']);
-        $nama_keterangan = htmlspecialchars($_POST['nama_keterangan']);
+        $nama_kelengkapan = htmlspecialchars($_POST['nama_kelengkapan'] ?? '');
+        $nama_score = intval($_POST['nama_score'] ?? 0);
+        $nama_keterangan = htmlspecialchars($_POST['nama_keterangan'] ?? '');
         $combined_nama = $nama_kelengkapan . "," . $nama_score . "," . $nama_keterangan;
 
-        $jabatan_kelengkapan = htmlspecialchars($_POST['jabatan_kelengkapan']);
-        $jabatan_score = intval($_POST['jabatan_score']);
-        $jabatan_keterangan = htmlspecialchars($_POST['jabatan_keterangan']);
+        $jabatan_kelengkapan = htmlspecialchars($_POST['jabatan_kelengkapan'] ?? '');
+        $jabatan_score = intval($_POST['jabatan_score'] ?? 0);
+        $jabatan_keterangan = htmlspecialchars($_POST['jabatan_keterangan'] ?? '');
         $combined_jabatan = $jabatan_kelengkapan . "," . $jabatan_score . "," . $jabatan_keterangan;
 
-        $kualifikasi_akademik_kelengkapan = htmlspecialchars($_POST['kualifikasi_akademik_kelengkapan']);
-        $kualifikasi_akademik_score = intval($_POST['kualifikasi_akademik_score']);
-        $kualifikasi_akademik_keterangan = htmlspecialchars($_POST['kualifikasi_akademik_keterangan']);
+        $kualifikasi_akademik_kelengkapan = htmlspecialchars($_POST['kualifikasi_akademik_kelengkapan'] ?? '');
+        $kualifikasi_akademik_score = intval($_POST['kualifikasi_akademik_score'] ?? 0);
+        $kualifikasi_akademik_keterangan = htmlspecialchars($_POST['kualifikasi_akademik_keterangan'] ?? '');
         $combined_kualifikasi_akademik = $kualifikasi_akademik_kelengkapan . "," . $kualifikasi_akademik_score . "," . $kualifikasi_akademik_keterangan;
 
-        $sertifikat_kelengkapan = htmlspecialchars($_POST['sertifikat_kelengkapan']);
-        $sertifikat_score = intval($_POST['sertifikat_score']);
-        $sertifikat_keterangan = htmlspecialchars($_POST['sertifikat_keterangan']);
+        $sertifikat_kelengkapan = htmlspecialchars($_POST['sertifikat_kelengkapan'] ?? '');
+        $sertifikat_score = intval($_POST['sertifikat_score'] ?? 0);
+        $sertifikat_keterangan = htmlspecialchars($_POST['sertifikat_keterangan'] ?? '');
         $combined_sertifikat = $sertifikat_kelengkapan . "," . $sertifikat_score . "," . $sertifikat_keterangan;
 
-        $pengalaman_kerja_kelengkapan = htmlspecialchars($_POST['pengalaman_kerja_kelengkapan']);
-        $pengalaman_kerja_score = intval($_POST['pengalaman_kerja_score']);
-        $pengalaman_kerja_keterangan = htmlspecialchars($_POST['pengalaman_kerja_keterangan']);
+        $pengalaman_kerja_kelengkapan = htmlspecialchars($_POST['pengalaman_kerja_kelengkapan'] ?? '');
+        $pengalaman_kerja_score = intval($_POST['pengalaman_kerja_score'] ?? 0);
+        $pengalaman_kerja_keterangan = htmlspecialchars($_POST['pengalaman_kerja_keterangan'] ?? '');
         $combined_pengalaman_kerja = $pengalaman_kerja_kelengkapan . "," . $pengalaman_kerja_score . "," . $pengalaman_kerja_keterangan;
 
         //RIPS untuk sarana prasarana
-        $bangunan_kelengkapan = htmlspecialchars($_POST['bangunan_kelengkapan']);
-        $bangunan_score = intval($_POST['bangunan_score']);
-        $bangunan_keterangan = htmlspecialchars($_POST['bangunan_keterangan']);
+        $bangunan_kelengkapan = htmlspecialchars($_POST['bangunan_kelengkapan'] ?? '');
+        $bangunan_score = intval($_POST['bangunan_score'] ?? 0);
+        $bangunan_keterangan = htmlspecialchars($_POST['bangunan_keterangan'] ?? '');
         $combined_bangunan = $bangunan_kelengkapan . "," . $bangunan_score . "," . $bangunan_keterangan;
 
-        $ruangan_kelengkapan = htmlspecialchars($_POST['ruangan_kelengkapan']);
-        $ruangan_score = intval($_POST['ruangan_score']);
-        $ruangan_keterangan = htmlspecialchars($_POST['ruangan_keterangan']);
+        $ruangan_kelengkapan = htmlspecialchars($_POST['ruangan_kelengkapan'] ?? '');
+        $ruangan_score = intval($_POST['ruangan_score'] ?? 0);
+        $ruangan_keterangan = htmlspecialchars($_POST['ruangan_keterangan'] ?? '');
         $combined_ruangan = $ruangan_kelengkapan . "," . $ruangan_score . "," . $ruangan_keterangan;
 
-        $alat_kelengkapan = htmlspecialchars($_POST['alat_kelengkapan']);
-        $alat_score = intval($_POST['alat_score']);
-        $alat_keterangan = htmlspecialchars($_POST['alat_keterangan']);
+        $alat_kelengkapan = htmlspecialchars($_POST['alat_kelengkapan'] ?? '');
+        $alat_score = intval($_POST['alat_score'] ?? 0);
+        $alat_keterangan = htmlspecialchars($_POST['alat_keterangan'] ?? '');
         $combined_alat = $alat_kelengkapan . "," . $alat_score . "," . $alat_keterangan;
 
-        $bahan_ajar_kelengkapan = htmlspecialchars($_POST['bahan_ajar_kelengkapan']);
-        $bahan_ajar_score = intval($_POST['bahan_ajar_score']);
-        $bahan_ajar_keterangan = htmlspecialchars($_POST['bahan_ajar_keterangan']);
+        $bahan_ajar_kelengkapan = htmlspecialchars($_POST['bahan_ajar_kelengkapan'] ?? '');
+        $bahan_ajar_score = intval($_POST['bahan_ajar_score'] ?? 0);
+        $bahan_ajar_keterangan = htmlspecialchars($_POST['bahan_ajar_keterangan'] ?? '');
         $combined_bahan_ajar = $bahan_ajar_kelengkapan . "," . $bahan_ajar_score . "," . $bahan_ajar_keterangan;
 
-        $kepemilikan_gedung_kelengkapan = htmlspecialchars($_POST['kepemilikan_gedung_kelengkapan']);
-        $kepemilikan_gedung_score = intval($_POST['kepemilikan_gedung_score']);
-        $kepemilikan_gedung_keterangan = htmlspecialchars($_POST['kepemilikan_gedung_keterangan']);
+        $kepemilikan_gedung_kelengkapan = htmlspecialchars($_POST['kepemilikan_gedung_kelengkapan'] ?? '');
+        $kepemilikan_gedung_score = intval($_POST['kepemilikan_gedung_score'] ?? 0);
+        $kepemilikan_gedung_keterangan = htmlspecialchars($_POST['kepemilikan_gedung_keterangan'] ?? '');
         $combined_kepemilikan_gedung = $kepemilikan_gedung_kelengkapan . "," . $kepemilikan_gedung_score . "," . $kepemilikan_gedung_keterangan;
 
         //RIPS untuk pembiayaan pendidikan
-        $rancangan_pembiayaan_kelengkapan = htmlspecialchars($_POST['rancangan_pembiayaan_kelengkapan']);
-        $rancangan_pembiayaan_score = intval($_POST['rancangan_pembiayaan_score']);
-        $rancangan_pembiayaan_keterangan = htmlspecialchars($_POST['rancangan_pembiayaan_keterangan']);
+        $rancangan_pembiayaan_kelengkapan = htmlspecialchars($_POST['rancangan_pembiayaan_kelengkapan'] ?? '');
+        $rancangan_pembiayaan_score = intval($_POST['rancangan_pembiayaan_score'] ?? 0);
+        $rancangan_pembiayaan_keterangan = htmlspecialchars($_POST['rancangan_pembiayaan_keterangan'] ?? '');
         $combined_rancangan_pembiayaan = $rancangan_pembiayaan_kelengkapan . "," . $rancangan_pembiayaan_score . "," . $rancangan_pembiayaan_keterangan;
 
-        $sumber_pembiayaan_kelengkapan = htmlspecialchars($_POST['sumber_pembiayaan_kelengkapan']);
-        $sumber_pembiayaan_score = intval($_POST['sumber_pembiayaan_score']);
-        $sumber_pembiayaan_keterangan = htmlspecialchars($_POST['sumber_pembiayaan_keterangan']);
+        $sumber_pembiayaan_kelengkapan = htmlspecialchars($_POST['sumber_pembiayaan_kelengkapan'] ?? '');
+        $sumber_pembiayaan_score = intval($_POST['sumber_pembiayaan_score'] ?? 0);
+        $sumber_pembiayaan_keterangan = htmlspecialchars($_POST['sumber_pembiayaan_keterangan'] ?? '');
         $combined_sumber_pembiayaan = $sumber_pembiayaan_kelengkapan . "," . $sumber_pembiayaan_score . "," . $sumber_pembiayaan_keterangan;
 
         //RIPS untuk sistem evaluasi dan sertifikasi
-        $sistem_sertifikasi_kelengkapan = htmlspecialchars($_POST['sistem_sertifikasi_kelengkapan']);
-        $sistem_sertifikasi_score = intval($_POST['sistem_sertifikasi_score']);
-        $sistem_sertifikasi_keterangan = htmlspecialchars($_POST['sistem_sertifikasi_keterangan']);
+        $sistem_sertifikasi_kelengkapan = htmlspecialchars($_POST['sistem_sertifikasi_kelengkapan'] ?? '');
+        $sistem_sertifikasi_score = intval($_POST['sistem_sertifikasi_score'] ?? 0);
+        $sistem_sertifikasi_keterangan = htmlspecialchars($_POST['sistem_sertifikasi_keterangan'] ?? '');
         $combined_sistem_sertifikasi = $sistem_sertifikasi_kelengkapan . "," . $sistem_sertifikasi_score . "," . $sistem_sertifikasi_keterangan;
 
-        $orientasi_sertifikasi_kelengkapan = htmlspecialchars($_POST['orientasi_sertifikasi_kelengkapan']);
-        $orientasi_sertifikasi_score = intval($_POST['orientasi_sertifikasi_score']);
-        $orientasi_sertifikasi_keterangan = htmlspecialchars($_POST['orientasi_sertifikasi_keterangan']);
+        $orientasi_sertifikasi_kelengkapan = htmlspecialchars($_POST['orientasi_sertifikasi_kelengkapan'] ?? '');
+        $orientasi_sertifikasi_score = intval($_POST['orientasi_sertifikasi_score'] ?? 0);
+        $orientasi_sertifikasi_keterangan = htmlspecialchars($_POST['orientasi_sertifikasi_keterangan'] ?? '');
         $combined_orientasi_sertifikasi = $orientasi_sertifikasi_kelengkapan . "," . $orientasi_sertifikasi_score . "," . $orientasi_sertifikasi_keterangan;
 
-        $pengembangan_evaluasi_kelengkapan = htmlspecialchars($_POST['pengembangan_evaluasi_kelengkapan']);
-        $pengembangan_evaluasi_score = intval($_POST['pengembangan_evaluasi_score']);
-        $pengembangan_evaluasi_keterangan = htmlspecialchars($_POST['pengembangan_evaluasi_keterangan']);
+        $pengembangan_evaluasi_kelengkapan = htmlspecialchars($_POST['pengembangan_evaluasi_kelengkapan'] ?? '');
+        $pengembangan_evaluasi_score = intval($_POST['pengembangan_evaluasi_score'] ?? 0);
+        $pengembangan_evaluasi_keterangan = htmlspecialchars($_POST['pengembangan_evaluasi_keterangan'] ?? '');
         $combined_pengembangan_evaluasi = $pengembangan_evaluasi_kelengkapan . "," . $pengembangan_evaluasi_score . "," . $pengembangan_evaluasi_keterangan;
 
         //RIPS untuk manajemen dan proses pendidikan
-        $struktur_organisasi_kelengkapan = htmlspecialchars($_POST['struktur_organisasi_kelengkapan']);
-        $struktur_organisasi_score = intval($_POST['struktur_organisasi_score']);
-        $struktur_organisasi_keterangan = htmlspecialchars($_POST['struktur_organisasi_keterangan']);
+        $struktur_organisasi_kelengkapan = htmlspecialchars($_POST['struktur_organisasi_kelengkapan'] ?? '');
+        $struktur_organisasi_score = intval($_POST['struktur_organisasi_score'] ?? 0);
+        $struktur_organisasi_keterangan = htmlspecialchars($_POST['struktur_organisasi_keterangan'] ?? '');
         $combined_struktur_organisasi = $struktur_organisasi_kelengkapan . "," . $struktur_organisasi_score . "," . $struktur_organisasi_keterangan;
 
-        $sop_kelengkapan = htmlspecialchars($_POST['sop_kelengkapan']);
-        $sop_score = intval($_POST['sop_score']);
-        $sop_keterangan = htmlspecialchars($_POST['sop_keterangan']);
+        $sop_kelengkapan = htmlspecialchars($_POST['sop_kelengkapan'] ?? '');
+        $sop_score = intval($_POST['sop_score'] ?? 0);
+        $sop_keterangan = htmlspecialchars($_POST['sop_keterangan'] ?? '');
         $combined_sop = $sop_kelengkapan . "," . $sop_score . "," . $sop_keterangan;
 
-        $peserta_didik_kelengkapan = htmlspecialchars($_POST['peserta_didik_kelengkapan']);
-        $peserta_didik_score = intval($_POST['peserta_didik_score']);
-        $peserta_didik_keterangan = htmlspecialchars($_POST['peserta_didik_keterangan']);
+        $peserta_didik_kelengkapan = htmlspecialchars($_POST['peserta_didik_kelengkapan'] ?? '');
+        $peserta_didik_score = intval($_POST['peserta_didik_score'] ?? 0);
+        $peserta_didik_keterangan = htmlspecialchars($_POST['peserta_didik_keterangan'] ?? '');
         $combined_peserta_didik = $peserta_didik_kelengkapan . "," . $peserta_didik_score . "," . $peserta_didik_keterangan;
 
-        $kalender_pembelajaran_kelengkapan = htmlspecialchars($_POST['kalender_pembelajaran_kelengkapan']);
-        $kalender_pembelajaran_score = intval($_POST['kalender_pembelajaran_score']);
-        $kalender_pembelajaran_keterangan = htmlspecialchars($_POST['kalender_pembelajaran_keterangan']);
+        $kalender_pembelajaran_kelengkapan = htmlspecialchars($_POST['kalender_pembelajaran_kelengkapan'] ?? '');
+        $kalender_pembelajaran_score = intval($_POST['kalender_pembelajaran_score'] ?? 0);
+        $kalender_pembelajaran_keterangan = htmlspecialchars($_POST['kalender_pembelajaran_keterangan'] ?? '');
         $combined_kalender_pembelajaran = $kalender_pembelajaran_kelengkapan . "," . $kalender_pembelajaran_score . "," . $kalender_pembelajaran_keterangan;
 
-        $jadwal_ruangan_kelengkapan = htmlspecialchars($_POST['jadwal_ruangan_kelengkapan']);
-        $jadwal_ruangan_score = intval($_POST['jadwal_ruangan_score']);
-        $jadwal_ruangan_keterangan = htmlspecialchars($_POST['jadwal_ruangan_keterangan']);
+        $jadwal_ruangan_kelengkapan = htmlspecialchars($_POST['jadwal_ruangan_kelengkapan'] ?? '');
+        $jadwal_ruangan_score = intval($_POST['jadwal_ruangan_score'] ?? 0);
+        $jadwal_ruangan_keterangan = htmlspecialchars($_POST['jadwal_ruangan_keterangan'] ?? '');
         $combined_jadwal_ruangan = $jadwal_ruangan_kelengkapan . "," . $jadwal_ruangan_score . "," . $jadwal_ruangan_keterangan;
 
-        $placeholders = implode(', ', array_fill(0, 33, '?'));
+        // Debug: Log semua data yang akan diinsert
+        error_log("Data ready for insert - id_table_lembaga: " . $id_table_lembaga);
+
+        // SQL Query tanpa created_at (biarkan auto-generate)
         $sql = "INSERT INTO form_pma (
-            `id_table_lembaga`,
-            `form_pendaftaran`, `surat_tugas`, `ktp_pemohon`, `surat_rekomendasi`, `sk_kemenhumkam`, `nomor_induk_berusaha`, `kepemilikan_tanah`,
-            `acuan_kurikulum`, `kurikulum`, `rpp`, `pendekatan_pembelajaran`, 
-            `nama`, `jabatan`, `kualifikasi_akademik`, `sertifikat`, `pengalaman_kerja`, 
-            `bangunan`, `ruangan`, `alat`, `bahan_ajar`, `kepemilikan_gedung`,
-            `rancangan_pembiayaan`, `sumber_pembiayaan`, 
-            `sistem_sertifikasi`, `orientasi_sertifikasi`, `pengembangan_evaluasi`, 
-            `struktur_organisasi`, `sop`, `peserta_didik`, `kalender_pembelajaran`, `jadwal_ruangan`
-        ) VALUES ($placeholders, CURRENT_TIMESTAMP())";
+            id_table_lembaga,
+            form_pendaftaran, surat_tugas, ktp_pemohon, surat_rekomendasi, sk_kemenhumkam, nomor_induk_berusaha, kepemilikan_tanah,
+            acuan_kurikulum, kurikulum, rpp, pendekatan_pembelajaran, 
+            nama, jabatan, kualifikasi_akademik, sertifikat, pengalaman_kerja, 
+            bangunan, ruangan, alat, bahan_ajar, kepemilikan_gedung,
+            rancangan_pembiayaan, sumber_pembiayaan, 
+            sistem_sertifikasi, orientasi_sertifikasi, pengembangan_evaluasi, 
+            struktur_organisasi, sop, peserta_didik, kalender_pembelajaran, jadwal_ruangan
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
-            die("FATAL ERROR: Gagal mempersiapkan statement. Cek kembali semua nama kolom di query SQL. Pesan error dari database: " . $conn->error);
+            error_log("Prepare failed: " . $conn->error);
+            return false;
         }
 
+        // Bind parameter - total 32 parameter (1 int + 31 string)
         $stmt->bind_param(
-            // String tipe data yang sudah dikoreksi (Total 32 karakter)
             "isssssssssssssssssssssssssssssss",
             $id_table_lembaga, 
-            $combined_pendaftaran, $combined_surat_tugas, $combined_ktp_pemohon, $combined_surat_rekomendasi, $combined_sk_kemenhumham, $combined_nomor_induk_berusaha, $combined_kepemilikan_tanah, 
+            $combined_pendaftaran, $combined_surat_tugas, $combined_ktp_pemohon, $combined_surat_rekomendasi, $combined_sk_kemenhumkam, $combined_nomor_induk_berusaha, $combined_kepemilikan_tanah, 
             $combined_acuan_kurikulum, $combined_kurikulum, $combined_rpp, $combined_pendekatan_pembelajaran, 
             $combined_nama, $combined_jabatan, $combined_kualifikasi_akademik, $combined_sertifikat, $combined_pengalaman_kerja, 
             $combined_bangunan, $combined_ruangan, $combined_alat, $combined_bahan_ajar, $combined_kepemilikan_gedung, 
@@ -375,17 +392,20 @@ function insertPMA() {
             $combined_struktur_organisasi, $combined_sop, $combined_peserta_didik, $combined_kalender_pembelajaran, $combined_jadwal_ruangan
         );
 
-        if (!$stmt->execute()) {
-            die("FATAL ERROR: Gagal mengeksekusi statement. Cek tipe data atau constraint (foreign key). Pesan error dari database: " . $stmt->error);
+        // Execute query
+        if ($stmt->execute()) {
+            $affected_rows = $stmt->affected_rows;
+            error_log("Insert successful - affected rows: " . $affected_rows);
+            $stmt->close();
+            return $affected_rows;
+        } else {
+            error_log("Execute failed: " . $stmt->error);
+            $stmt->close();
+            return false;
         }
-
-        echo "<script>alert('Data berhasil dikirim!'); window.location.href='index.php';</script>";
-        $stmt->close();
-        $conn->close();
-
+        
     } catch (Exception $e) {
         error_log("Error in insertPMA(): " . $e->getMessage());
         return false;
     }
 }
-
