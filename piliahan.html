@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Role Selection Modal -->
+    <div id="roleModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden backdrop-blur-sm">
+        <div
+            class="bg-white dark:bg-dark-800 rounded-2xl max-w-md w-full animate-slide-up border border-gray-100 dark:border-dark-700 shadow-2xl">
+            <!-- Modal Header -->
+            <div class="border-b border-gray-200 dark:border-dark-700 px-6 py-4 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                    <i class="fa-solid fa-building text-primary mr-2"></i>
+                    Pilih Jenis Perusahaan
+                </h3>
+                <button onclick="hideRoleSelection()"
+                    class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                    Silakan pilih kategori perusahaan Anda:
+                </p>
+
+                <!-- Role Cards -->
+                <div class="space-y-4">
+                    <button onclick="redirectTo('pma')"
+                        class="w-full flex items-start p-4 border border-gray-200 dark:border-dark-700 rounded-xl role-card hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300 bg-white dark:bg-dark-900">
+                        <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4">
+                            <i class="fas fa-globe text-blue-500 dark:text-blue-400 text-lg"></i>
+                        </div>
+                        <div class="text-left flex-1">
+                            <h4 class="font-semibold text-gray-900 dark:text-white">PMA</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                Penanaman Modal Asing
+                            </p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400 dark:text-gray-500 ml-2 mt-1"></i>
+                    </button>
+
+                    <button onclick="redirectTo('non-pma')"
+                        class="w-full flex items-start p-4 border border-gray-200 dark:border-dark-700 rounded-xl role-card hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300 bg-white dark:bg-dark-900">
+                        <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg mr-4">
+                            <i class="fas fa-building text-green-500 dark:text-green-400 text-lg"></i>
+                        </div>
+                        <div class="text-left flex-1">
+                            <h4 class="font-semibold text-gray-900 dark:text-white">Non-PMA</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                Perusahaan dalam negeri
+                            </p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400 dark:text-gray-500 ml-2 mt-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
